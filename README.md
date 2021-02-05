@@ -15,15 +15,15 @@
 - id : integer
 - name : string
 - password : string
-- admin : boolean
+- is_admin : boolean
 
 ## Statusモデル
 - id : integer
-- status : integer
+- name : string
 
 ## Priorityモデル
 - id : integer
-- priority : integer
+- name : string
 
 ## Labelモデル
 - id : integer
