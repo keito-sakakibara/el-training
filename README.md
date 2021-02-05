@@ -1,3 +1,39 @@
+# テーブルスキーマ
+
+## Taskモデル
+- id : integer
+- created_at : datetime
+- updated_at : datetime
+- title : string
+- detail : text
+- deadline : datetime
+- user_id : integer
+- status_id : integer
+- priority_id : integer
+
+## Userモデル
+- id : integer
+- name : string
+- password : string
+- admin : boolean
+
+## Statusモデル
+- id : integer
+- status : integer
+
+## Priorityモデル
+- id : integer
+- priority : integer
+
+## Labelモデル
+- id : integer
+- name : string
+
+## TaskLabelRelationship
+- id         : integer
+- task_id :integer
+- label_id : integer
+
 # Ruby on Rails on Docker
 
 ## Ruby version
