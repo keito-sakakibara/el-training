@@ -1,3 +1,7 @@
+# 画面設計（ワイヤーフレーム）
+
+![Image from iOS (1)](https://user-images.githubusercontent.com/62434610/107027871-152cc680-67f0-11eb-9897-e7cd6e73faac.jpg)
+
 # モデル図
 
 ![Image from iOS](https://user-images.githubusercontent.com/62434610/106997220-df72e800-67c5-11eb-813d-ff3f79d3b724.jpg)
