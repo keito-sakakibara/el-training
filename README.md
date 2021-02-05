@@ -1,3 +1,47 @@
+# 画面設計（ワイヤーフレーム）
+
+![Image from iOS (1)](https://user-images.githubusercontent.com/62434610/107027871-152cc680-67f0-11eb-9897-e7cd6e73faac.jpg)
+
+# モデル図
+
+![Image from iOS](https://user-images.githubusercontent.com/62434610/106997220-df72e800-67c5-11eb-813d-ff3f79d3b724.jpg)
+
+# テーブルスキーマ
+
+## Taskモデル
+- id : integer
+- created_at : datetime
+- updated_at : datetime
+- title : string
+- detail : text
+- deadline : datetime
+- user_id : integer
+- status_id : integer
+- priority_id : integer
+
+## Userモデル
+- id : integer
+- name : string
+- password : string
+- is_admin : boolean
+
+## Statusモデル
+- id : integer
+- name : string
+
+## Priorityモデル
+- id : integer
+- name : string
+
+## Labelモデル
+- id : integer
+- name : string
+
+## TaskLabelRelationship
+- id         : integer
+- task_id :integer
+- label_id : integer
+
 # Ruby on Rails on Docker
 
 ## Ruby version
