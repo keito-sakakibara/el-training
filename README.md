@@ -1,3 +1,7 @@
+# モデル図
+
+![Image from iOS](https://user-images.githubusercontent.com/62434610/106997220-df72e800-67c5-11eb-813d-ff3f79d3b724.jpg)
+
 # テーブルスキーマ
 
 ## Taskモデル
