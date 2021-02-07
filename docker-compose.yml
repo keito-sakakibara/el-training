@@ -4,7 +4,7 @@ services:
     image: postgres:9.6-alpine
     restart: always
     volumes:
-      - ./containers/db:/docker-entrypoint-initdb.d
+      - ./containers/db:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: pass
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=C"
