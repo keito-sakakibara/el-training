@@ -1,5 +1,7 @@
 <h1><%= @task.name %></h1>
-
+<hr>
 <p><%= @task.detail %></p>
 
-<%= link_to "一覧へ",tasks_path%>
+<div class = "back">
+    <%= link_to "一覧へ",tasks_path,{class:"back_button"}%>
+</div>

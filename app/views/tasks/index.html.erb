@@ -1,8 +1,13 @@
 <h1>一覧</h1>
+<hr>
 <ul>
   <% @tasks.each do |task| %>
     <li> 
-      <%= link_to task.name, task %>
+      <% if @tasks%>
+        <%= link_to task.name, task, {class: "task"}%>
+      <% else %>
+        <p>タスクがありません</p>
+      <%end%>
     </li>
   <% end %>
 </ul>

@@ -1,12 +1,15 @@
 class TasksController < ApplicationController
-  
-　# @tasksに全てのタスクを
+
+  # 全てのタスクを取得する
+  # @return [Array<Task>]
   def index
     @tasks = Task.all
   end
 
-  #railsから送られてきたidをもとに一つのタスクを検索し@taskに
+  # 選択したタスクを取得する
+  # @param [id] 選択したタスクのid
+  # @return [Task] 選択したidのタスク
   def show
-    @task = Task.find(params[:id])　#　idを引数で受け取る
+    @task = Task.find(params[:id])
   end
 end
