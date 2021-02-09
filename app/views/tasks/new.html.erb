@@ -1,5 +1,4 @@
 <h1>タスクの作成</h1>
-<% @task=Task.new unless @task %>
 <%= form_for(@task) do |f| %>
     <%= f.label :name, 'タスク' %>
     <%= f.text_field :name %>
