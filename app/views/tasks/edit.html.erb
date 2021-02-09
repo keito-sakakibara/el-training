@@ -1,0 +1,13 @@
+<h1>タスクの編集</h1>
+<% @task=Task.new unless @task %>
+<%= form_for(@task) do |f| %>
+    <%= f.label :name, 'タスク' %>
+    <%= f.text_field :name %>
+    <%= f.label :detail, '詳細' %>
+    <%= f.text_area :detail %>
+    <%= f.submit '編集' %>
+<% end %>
+
+<div class = "back">
+    <%= link_to "一覧へ",tasks_path,{class:"back_button"}%>
+</div>

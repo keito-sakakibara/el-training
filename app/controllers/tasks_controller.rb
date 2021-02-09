@@ -6,10 +6,57 @@ class TasksController < ApplicationController
     @tasks = Task.all
   end
 
-  # 選択したタスクを取得する
-  # @param [id] 選択したタスクのid
-  # @return [Task] 選択したidのタスク
+  # 対象タスクを取得する
+  # param [Integer] 対象タスクのID
+  # return [Object<Task>]
   def show
     @task = Task.find(params[:id])
+  end
+
+  # タスクインスタンスを作成
+  def new 
+    @task = Task.new
+  end
+
+  # タスクを作成
+  # return [Task] saveされた時作成されたタスクのshow.html.erbにリダイレクト
+  # return [nil] saveされなかった時new.html.erbにレンダリング
+  def create
+    @task = Task.new(task_params)
+
+    if @task.save
+      flash[:succcess] = "タスクが作成されました"
+      redirect_to @task
+    else
+      flash[:danger] = "タスクの作成に失敗しました"
+      render :new
+    end
+  end
+
+  # 対象タスクを取得する
+  # return [Task]
+  def edit
+    @task = Task.find(params[:id])
+  end
+
+  # 対象タスクの値を変更する
+  # return [Task] updateされた時作成されたタスクのshow.html.erbにリダイレクト
+  # return [nil] updateされなかった時edit.html.erbにレンダリング
+  def update
+    @task = Task.find(params[:id])
+
+    if @task.update(task_params)
+      flash[:succcess] = "タスクが編集されました"
+      redirect_to @task
+    else
+      flash[:danger] = "タスクの編集に失敗しました"
+      render :edit
+    end
+  end
+
+  private
+
+  def task_params
+    params.require(:task).permit(:name,:detail)
   end
 end
