@@ -58,16 +58,16 @@ class TasksController < ApplicationController
     end
   end
 
-  # 対象タスクを削除
+  # 対象タスクの削除
   # param [Integer] 対象タスクのID
-  # return [nill] 削除されたため
+  # return [nill]
   def destroy
     @task = Task.find(params[:id])
     @task.destroy
-    flash[:succcess] = "タスクが削除されました"
+  
+    flash[:success] = 'タスクが削除されました'
     redirect_to tasks_path
   end
-
   private
   # paramにname,detailのみ渡す
   # param [Object<name,detail>] nameとdetailのみ
