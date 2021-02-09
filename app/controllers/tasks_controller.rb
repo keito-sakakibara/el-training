@@ -7,11 +7,10 @@ class TasksController < ApplicationController
   end
 
   # 対象タスクを取得する
-  # param [Integer] 対象タスクのID
-  # return [Object<Task>]
+  # @return [Task]
   def show
     @task = Task.find(params[:id])
-  end
+  end           
 
   # タスクインスタンスを作成
   def new 
@@ -52,6 +51,16 @@ class TasksController < ApplicationController
       flash[:danger] = "タスクの編集に失敗しました"
       render :edit
     end
+  end
+
+  # 対象タスクの削除
+  # @return [nil]
+  def destroy
+    @task = Task.find(params[:id])
+    @task.destroy
+  
+    flash[:success] = 'タスクが削除されました'
+    redirect_to tasks_path
   end
 
   private
