@@ -13,15 +13,10 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
   end
 
-  # タスクを作成
   def new 
     @task = Task.new
   end
 
-  # タスクを作成
-  # param [Object<name,detail>] nameとdetailのみ
-  # return [Object<Task>] saveされた時作成されたタスクのshow.html.erbにリダイレクト
-  # return [nill] saveされなかった時new.html.erbにレンダリング
   def create
     @task = Task.new(task_params)
 
@@ -34,18 +29,10 @@ class TasksController < ApplicationController
     end
   end
 
-  # 対象タスクを取得する
-  # param [Integer] 対象タスクのID
-  # return [Object<Task>]
   def edit
     @task = Task.find(params[:id])
   end
 
-  # 対象タスクの値を変更する
-  # param [Integer] 対象タスクのID
-  # param [Object<name,detail>] nameとdetailのみ
-  # return [Object<Task>] updateされた時作成されたタスクのshow.html.erbにリダイレクト
-  # return [nill] updateされなかった時edit.html.erbにレンダリング
   def update
     @task = Task.find(params[:id])
 
@@ -59,8 +46,7 @@ class TasksController < ApplicationController
   end
 
   private
-  # paramにname,detailのみ渡す
-  # param [Object<name,detail>] nameとdetailのみ
+
   def task_params
     params.require(:task).permit(:name,:detail)
   end
