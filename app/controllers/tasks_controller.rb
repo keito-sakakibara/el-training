@@ -12,10 +12,14 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
   end           
 
+  # タスクインスタンスを作成
   def new 
     @task = Task.new
   end
 
+  # タスクを作成
+  # return [Task] saveされた時作成されたタスクのshow.html.erbにリダイレクト
+  # return [nil] saveされなかった時new.html.erbにレンダリング
   def create
     @task = Task.new(task_params)
 
@@ -28,10 +32,15 @@ class TasksController < ApplicationController
     end
   end
 
+  # 対象タスクを取得する
+  # return [Task]
   def edit
     @task = Task.find(params[:id])
   end
 
+  # 対象タスクの値を変更する
+  # return [Task] updateされた時作成されたタスクのshow.html.erbにリダイレクト
+  # return [nil] updateされなかった時edit.html.erbにレンダリング
   def update
     @task = Task.find(params[:id])
 
