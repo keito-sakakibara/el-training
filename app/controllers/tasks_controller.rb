@@ -54,7 +54,6 @@ class TasksController < ApplicationController
   end
 
   # 対象タスクの削除
-  # @param [Integer] 対象タスクのID
   # @return [nil]
   def destroy
     @task = Task.find(params[:id])
