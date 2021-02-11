@@ -9,6 +9,7 @@ RSpec.describe TasksController, type: :request do
       expect(response).to have_http_status(200)
     end
   end
+  
   describe '#show' do
     context 'タスクが存在する時' do
       let!(:task) { create(:task) }
