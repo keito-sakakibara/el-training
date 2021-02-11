@@ -1,11 +1,6 @@
 FactoryBot.define do
-  factory :task1,class: Task do
-    name {"task1"}
-    detail {"task1です"}
+  factory :task,class: Task do
+    name {"name"}
+    detail {"detail"}
   end
-  factory :task2,class: Task do
-    name {"task2"}
-    detail {"task2です"}
-  end
-
 end

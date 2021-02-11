@@ -11,8 +11,8 @@ RSpec.describe TasksController, type: :request do
   end
   describe '#show' do
     context 'タスクが存在する時' do
-      let!(:task1) { create(:task1) }
-      subject { get task_path task1.id }
+      let!(:task) { create(:task) }
+      subject { get task_path task.id }
 
       it 'リクエストが成功すること' do
         subject
@@ -22,7 +22,7 @@ RSpec.describe TasksController, type: :request do
 
       it 'タスク名が表示されていること' do
         subject
-        expect(response.body).to include 'task1'
+        expect(response.body).to include 'task'
       end
     end
 
@@ -43,8 +43,8 @@ RSpec.describe TasksController, type: :request do
   end
 
   describe '#edit' do
-    let!(:task1) { create(:task1) }
-    subject { get edit_task_path task1 }
+    let!(:task) { create(:task) }
+    subject { get edit_task_path task }
 
     it 'リクエストが成功すること' do
       subject
@@ -53,18 +53,18 @@ RSpec.describe TasksController, type: :request do
 
     it 'タスク名が表示されていること' do
       subject
-      expect(response.body).to include 'task1'
+      expect(response.body).to include 'name'
     end
 
     it '詳細が表示されていること' do
       subject
-      expect(response.body).to include 'task1です'
+      expect(response.body).to include 'detail'
     end
   end
 
   describe '#create' do
     context 'パラメータが妥当な場合' do
-      subject { post tasks_path, params: { task: FactoryBot.attributes_for(:task1) } }
+      subject { post tasks_path, params: { task: FactoryBot.attributes_for(:task) } }
 
       it 'リクエストが成功すること' do
         subject
@@ -85,10 +85,10 @@ RSpec.describe TasksController, type: :request do
   end
 
   describe "#update" do
-    let!(:task1) { FactoryBot.create :task1}
+    let!(:task) { create(:task) }
 
     context "パラメータが妥当な場合" do
-      subject { put task_path task1, params: { task1: FactoryBot.attributes_for(:task1) } }
+      subject { put task_path task, params: { task: FactoryBot.attributes_for(:task,name:"sample",detail:"sample_detail") } }
 
       it "リクエストが成功すること" do
         subject
@@ -98,14 +98,19 @@ RSpec.describe TasksController, type: :request do
       it "タスク名が更新されること" do
         expect do
           subject
-        end.to change { Task.find(task1.id).name }.from("task1").to("task2")
+        end.to change { Task.find(task.id).name }.from("name").to("sample")
+      end
+
+      it "リダイレクトすること" do
+        subject
+        expect(response).to redirect_to Task.last
       end
     end
   end
 
   describe '#destroy' do
-    let!(:task1) { FactoryBot.create :task1 }
-    subject { delete task_path task1 }
+    let!(:task) { FactoryBot.create :task }
+    subject { delete task_path task }
 
     it 'リクエストが成功すること' do
       subject
