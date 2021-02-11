@@ -28,3 +28,5 @@
 
 containers/
 containers_tmp/
+
+/.DS_Store
