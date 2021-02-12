@@ -244,10 +244,6 @@ DEPENDENCIES
   puma (~> 3.11)
   rails (~> 5.2.3)
   rspec-rails
-  rubocop
-  rubocop-performance
-  rubocop-rails
-  rubocop-rspec
   sass-rails (~> 5.0.7)
   selenium-webdriver
   spring

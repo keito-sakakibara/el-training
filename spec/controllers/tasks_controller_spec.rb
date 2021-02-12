@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe TasksController, type: :request do
   describe '#index' do
     subject { get tasks_path }
+
     it 'リクエストが成功すること' do
       subject
       expect(response).to be_success
