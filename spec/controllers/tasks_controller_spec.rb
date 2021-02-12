@@ -9,7 +9,7 @@ RSpec.describe TasksController, type: :request do
       expect(response).to have_http_status(200)
     end
   end
-  
+
   describe '#show' do
     context 'タスクが存在する時' do
       let!(:task) { create(:task) }
@@ -67,11 +67,6 @@ RSpec.describe TasksController, type: :request do
     context 'パラメータが妥当な場合' do
       subject { post tasks_path, params: { task: FactoryBot.attributes_for(:task) } }
 
-      it 'リクエストが成功すること' do
-        subject
-        expect(response.status).to eq 302
-      end
-
       it 'タスクが登録される' do
         expect do
           subject
@@ -80,6 +75,7 @@ RSpec.describe TasksController, type: :request do
 
       it 'リダイレクトされること' do
         subject
+        expect(response.status).to eq 302
         expect(response).to redirect_to Task.last
       end
     end
@@ -91,11 +87,6 @@ RSpec.describe TasksController, type: :request do
     context "パラメータが妥当な場合" do
       subject { put task_path task, params: { task: FactoryBot.attributes_for(:task,name:"sample",detail:"sample_detail") } }
 
-      it "リクエストが成功すること" do
-        subject
-        expect(response.status).to eq 302
-      end
-
       it "タスク名が更新されること" do
         expect do
           subject
@@ -104,6 +95,7 @@ RSpec.describe TasksController, type: :request do
 
       it "リダイレクトすること" do
         subject
+        expect(response.status).to eq 302
         expect(response).to redirect_to Task.last
       end
     end
@@ -113,12 +105,7 @@ RSpec.describe TasksController, type: :request do
     let!(:task) { FactoryBot.create :task }
     subject { delete task_path task }
 
-    it 'リクエストが成功すること' do
-      subject
-      expect(response.status).to eq 302
-    end
-
-    it 'ユーザーが削除されること' do
+    it 'タスクが削除されること' do
       expect do
         subject
       end.to change(Task, :count).by(-1)
@@ -126,6 +113,7 @@ RSpec.describe TasksController, type: :request do
 
     it 'タスク一覧にリダイレクトされること' do
       subject
+      expect(response.status).to eq 302
       expect(response).to redirect_to(tasks_path)
     end
   end
