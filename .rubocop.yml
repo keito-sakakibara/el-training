@@ -13,3 +13,6 @@ Style/MixinUsage:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
