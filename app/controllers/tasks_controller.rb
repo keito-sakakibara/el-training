@@ -1,5 +1,6 @@
-class TasksController < ApplicationController
+# frozen_string_literal: true
 
+class TasksController < ApplicationController
   # 全てのタスクを取得する
   # @return [Array<Task>]
   def index
@@ -10,10 +11,10 @@ class TasksController < ApplicationController
   # @return [Task]
   def show
     @task = Task.find(params[:id])
-  end           
+  end
 
   # タスクインスタンスを作成
-  def new 
+  def new
     @task = Task.new
   end
 
@@ -24,10 +25,10 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
 
     if @task.save
-      flash[:succcess] = "タスクが作成されました"
+      flash[:succcess] = 'タスクが作成されました'
       redirect_to @task
     else
-      flash[:danger] = "タスクの作成に失敗しました"
+      flash[:danger] = 'タスクの作成に失敗しました'
       render :new
     end
   end
@@ -45,10 +46,10 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
 
     if @task.update(task_params)
-      flash[:succcess] = "タスクが編集されました"
+      flash[:succcess] = 'タスクが編集されました'
       redirect_to @task
     else
-      flash[:danger] = "タスクの編集に失敗しました"
+      flash[:danger] = 'タスクの編集に失敗しました'
       render :edit
     end
   end
@@ -58,7 +59,7 @@ class TasksController < ApplicationController
   def destroy
     @task = Task.find(params[:id])
     @task.destroy
-  
+
     flash[:success] = 'タスクが削除されました'
     redirect_to tasks_path
   end
@@ -66,6 +67,6 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:name,:detail)
+    params.require(:task).permit(:name, :detail)
   end
 end
