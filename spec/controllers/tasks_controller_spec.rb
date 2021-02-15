@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe TasksController, type: :request do
@@ -82,19 +84,21 @@ RSpec.describe TasksController, type: :request do
     end
   end
 
-  describe "#update" do
+  describe '#update' do
     let!(:task) { create(:task) }
 
-    context "パラメータが妥当な場合" do
-      subject { put task_path task, params: { task: FactoryBot.attributes_for(:task,name:"sample",detail:"sample_detail") } }
-
-      it "タスク名が更新されること" do
-        expect do
-          subject
-        end.to change { Task.find(task.id).name }.from("name").to("sample")
+    context 'パラメータが妥当な場合' do
+      subject do
+        put task_path task, params: { task: FactoryBot.attributes_for(:task, name: 'sample', detail: 'sample_detail') }
       end
 
-      it "リダイレクトすること" do
+      it 'タスク名が更新されること' do
+        expect do
+          subject
+        end.to change { Task.find(task.id).name }.from('name').to('sample')
+      end
+
+      it 'リダイレクトすること' do
         subject
         expect(response.status).to eq 302
         expect(response).to redirect_to Task.last
