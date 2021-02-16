@@ -42,6 +42,19 @@
 - task_id :integer
 - label_id : integer
 
+# デプロイ
+
+## デプロイ方法
+- herokuにログイン
+$heroku login
+- デプロイ
+$git push heroku master
+- 本番環境でのマイグレーション
+$heroku run rails db:migrate
+
+## バージョン
+Rails 5.2.3
+
 # Ruby on Rails on Docker
 
 ## Ruby version
