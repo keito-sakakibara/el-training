@@ -82,6 +82,21 @@ RSpec.describe TasksController, type: :request do
         expect(response).to redirect_to Task.last
       end
     end
+
+    context 'パラメータが不正な場合' do
+      subject { post tasks_path, params: { task: FactoryBot.attributes_for(:task, name: nil) } }
+
+      it 'タスクが登録されないこと' do
+        expect do
+          subject
+        end.to_not change(Task, :count)
+      end
+
+      it 'エラーが表示されること' do
+        subject
+        expect(response.body).to include 'タスクの作成に失敗しました'
+      end
+    end
   end
 
   describe '#update' do
@@ -102,6 +117,21 @@ RSpec.describe TasksController, type: :request do
         subject
         expect(response.status).to eq 302
         expect(response).to redirect_to Task.last
+      end
+    end
+
+    context 'パラメータが不正な場合' do
+      subject { put task_path task, params: { id: task.id, task: FactoryBot.attributes_for(:task, name: nil) } }
+
+      it 'タスク名が変更されないこと' do
+        expect do
+          subject
+        end.to_not change(Task.find(task.id), :name)
+      end
+
+      it 'エラーが表示されること' do
+        subject
+        expect(response.body).to include 'タスクの編集に失敗しました'
       end
     end
   end
