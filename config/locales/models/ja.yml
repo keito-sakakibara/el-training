@@ -1,0 +1,7 @@
+ja:
+  activerecord:
+    attributes:
+      task:
+        name: 名前
+        detail: 詳細
+        
