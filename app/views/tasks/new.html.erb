@@ -1,4 +1,13 @@
 <h1>タスクの作成</h1>
+<% if @task.errors.any? %>
+  <div class = "alert">
+    <ul>
+      <% @task.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end%>
 <% @task=Task.new unless @task %>
 <%= form_for(@task) do |f| %>
     <%= f.label :name, 'タスク' %>
