@@ -6,10 +6,19 @@ RSpec.describe TasksController, type: :request do
   describe '#index' do
     subject { get tasks_path }
 
+    let!(:task1) { create(:task, created_at: Time.current) }
+    let!(:task2) { create(:task, created_at: Time.current + 1.hour) }
+    let!(:task3) { create(:task, created_at: Time.current + 2.hours) }
+
     it 'リクエストが成功すること' do
       subject
       expect(response).to be_success
       expect(response).to have_http_status(200)
+    end
+
+    it '並び順が正しいこと' do
+      subject
+      expect(controller.instance_variable_get('@tasks')).to eq([task3, task2, task1])
     end
   end
 
