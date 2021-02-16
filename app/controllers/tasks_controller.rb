@@ -4,7 +4,7 @@ class TasksController < ApplicationController
   # 全てのタスクを取得する
   # @return [Array<Task>]
   def index
-    @tasks = Task.all
+    @tasks = Task.all.order(created_at: :desc)
   end
 
   # 対象タスクを取得する
