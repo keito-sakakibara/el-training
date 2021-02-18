@@ -37,6 +37,11 @@ RSpec.describe TasksController, type: :request do
         subject
         expect(response.body).to include 'task'
       end
+
+      it '終了期限が表示されていること' do
+        subject
+        expect(response.body).to include '2021-02-18'
+      end
     end
 
     context 'タスクが存在しない時' do
