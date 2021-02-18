@@ -4,8 +4,11 @@ class TasksController < ApplicationController
   # 全てのタスクを取得する
   # @return [Array<Task>]
   def index
-    @deadline_sort = params[:deadline_date_sort]
-    @tasks = Task.deadline_sort(@deadline_sort)
+    if params[:deadline_date_sort_type].present?
+      @tasks = Task.all.order(deadline_date: params[:deadline_date_sort_type])
+    else
+      @tasks = Task.all.order(created_at: :desc)
+    end
   end
 
   # 対象タスクを取得する
