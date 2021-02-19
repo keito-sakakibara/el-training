@@ -6,9 +6,9 @@ RSpec.describe TasksController, type: :request do
   describe '#index' do
     subject { get tasks_path }
 
-    let!(:task1) { create(:task, created_at: Time.current) }
-    let!(:task2) { create(:task, created_at: Time.current + 1.hour) }
-    let!(:task3) { create(:task, created_at: Time.current + 2.hours) }
+    let!(:task1) { create(:task, created_at: Time.current, deadline_date: Date.current + 3.days) }
+    let!(:task2) { create(:task, created_at: Time.current + 1.hour, deadline_date: Date.current + 10.days) }
+    let!(:task3) { create(:task, created_at: Time.current + 2.hours, deadline_date: Date.current + 7.days) }
 
     it 'リクエストが成功すること' do
       subject
@@ -19,6 +19,16 @@ RSpec.describe TasksController, type: :request do
     it '並び順が正しいこと' do
       subject
       expect(controller.instance_variable_get('@tasks')).to eq([task3, task2, task1])
+    end
+
+    it '締め切り日に近い順にソートが行われていること' do
+      get tasks_path, params: {deadline_date_sort_type: "asc"}
+      expect(controller.instance_variable_get('@tasks')).to eq([task1, task3, task2])
+    end
+
+    it '締め切り日に遠い順にソートが行われていること' do
+      get tasks_path, params: {deadline_date_sort_type: "desc"}
+      expect(controller.instance_variable_get('@tasks')).to eq([task2, task3, task1])
     end
   end
 
