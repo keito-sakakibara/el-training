@@ -14,7 +14,7 @@ RSpec.describe Task, type: :model do
     it 'nameが空白である場合エラーが表示されること' do
       task = build(:task, name: nil)
       task.valid?
-      expect(task.errors[:name]).to include("can't be blank")
+      expect(task.errors[:name]).to include('を入力してください')
     end
   end
 end
