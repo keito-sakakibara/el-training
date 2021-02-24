@@ -2,6 +2,10 @@
 <hr>
 <p><%= @task.detail %></p>
 <p><%= @task.deadline_date %></p>
+<% if @task.status.name.present? %>
+    <p><%= @task.status.name %></p>
+<% end %>
+
 
 <div class = "back">
     <%= link_to "一覧へ",tasks_path,{class:"back_button"}%>

@@ -9,6 +9,14 @@ class TasksController < ApplicationController
     else
       @tasks = Task.all.order(created_at: :desc)
     end
+
+    # Statusモデルのnameカラムの検索（statusのnameの取得が分からない)
+    if params[:status].present?
+      @tasks = Task.where("ここが知りたい。 LIKE ?","#{params[:status]}")
+    # Taskモデルのnameカラムの検索
+    elsif params[:name].present?
+      @tasks = Task.where("name LIKE ?","%#{params[:name]}%")
+    end
   end
 
   # 対象タスクを取得する
@@ -20,6 +28,7 @@ class TasksController < ApplicationController
   # タスクインスタンスを作成
   def new
     @task = Task.new
+    @task.build_status
   end
 
   # タスクを作成
@@ -71,6 +80,6 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:name, :detail, :deadline_date)
+    params.require(:task).permit(:name, :detail, :deadline_date, status_attributes: [:name])
   end
 end
