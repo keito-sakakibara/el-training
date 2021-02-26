@@ -4,19 +4,19 @@ class TasksController < ApplicationController
   # 全てのタスクを取得する
   # @return [Array<Task>]
   def index
-    if params[:deadline_date_sort_type].present?
+    @statuses = Status.all
+    tasks_name = params[:name]
+    status_id = params[:status_id]
+    if tasks_name.present? && status_id.present? 
+      @tasks = Task.search_status_id(status_id).search_task_name(tasks_name)
+    elsif status_id.present?
+      @tasks = Task.search_status_id(status_id)
+    elsif params[:deadline_date_sort_type].present?
       @tasks = Task.all.order(deadline_date: params[:deadline_date_sort_type])
     else
       @tasks = Task.all.order(created_at: :desc)
     end
-
-    # Statusモデルのnameカラムの検索（statusのnameの取得が分からない)
-    if params[:status].present?
-      @tasks = Task.where("ここが知りたい。 LIKE ?","#{params[:status]}")
-    # Taskモデルのnameカラムの検索
-    elsif params[:name].present?
-      @tasks = Task.where("name LIKE ?","%#{params[:name]}%")
-    end
+    
   end
 
   # 対象タスクを取得する
@@ -36,7 +36,6 @@ class TasksController < ApplicationController
   # return [nil] saveされなかった時new.html.erbにレンダリング
   def create
     @task = Task.new(task_params)
-
     if @task.save
       flash[:succcess] = 'タスクが作成されました'
       redirect_to @task
@@ -80,6 +79,6 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:name, :detail, :deadline_date, status_attributes: [:name])
+    params.require(:task).permit(:name, :detail, :deadline_date, status_attributes: [:name] )
   end
 end
