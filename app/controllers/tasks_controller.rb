@@ -28,6 +28,7 @@ class TasksController < ApplicationController
   # タスクインスタンスを作成
   def new
     @task = Task.new
+    @statuses = Status.all
     @task.build_status
   end
 
@@ -36,6 +37,7 @@ class TasksController < ApplicationController
   # return [nil] saveされなかった時new.html.erbにレンダリング
   def create
     @task = Task.new(task_params)
+    @task.status_id = params[:task][:status_id].to_i
     if @task.save
       flash[:succcess] = 'タスクが作成されました'
       redirect_to @task
@@ -79,6 +81,6 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:name, :detail, :deadline_date, status_attributes: [:name] )
+    params.require(:task).permit(:name, :detail, :deadline_date, :status_id )
   end
 end

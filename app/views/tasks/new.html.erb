@@ -8,22 +8,17 @@
     </ul>
   </div>
 <% end%>
-<% @task=Task.new unless @task %>
-<%= form_for(@task) do |f| %>
-    <%= f.label :name, 'タスク' %>
-    <%= f.text_field :name %>
-    <%= f.label :detail, '詳細' %>
-    <%= f.text_area :detail %>
-    <%= f.label :deadline_date, '終了期限' %>
-    <%= f.date_select :deadline_date %>
-    <%= f.fields_for :status do |s|%>
-      <%= s.select :name, [["未着手", "未着手"], ["着手", "着手"], ["完了", "完了"]], include_blank: "選択して下さい" %>
-    <% end %>
-    <%= f.submit '作成' %>
+<%= form_with model:@task ,url: tasks_path, method: :post, local: true do |f|%>
+  <%= f.label :name, 'タスク' %>
+  <%= f.text_field :name %>
+  <%= f.label :detail, '詳細' %>
+  <%= f.text_area :detail %>
+  <%= f.label :deadline_date, '終了期限' %>
+  <%= f.date_select :deadline_date %>
+  <%= f.label :status_id, 'ステータス' %>
+  <%= f.collection_select(:status_id,@statuses, :id, :name )%>
+  <%= f.submit %>
 <% end %>
-
-
-
 
 <div class = "back">
     <%= link_to "一覧へ",tasks_path,{class:"back_button"}%>

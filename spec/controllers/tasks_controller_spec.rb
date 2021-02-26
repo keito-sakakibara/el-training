@@ -96,11 +96,13 @@ RSpec.describe TasksController, type: :request do
 
       it 'タスクが登録される' do
         expect do
+          FactoryBot.create(:status)
           subject
         end.to change(Task, :count).by(1)
       end
 
       it 'リダイレクトされること' do
+        FactoryBot.create(:status)
         subject
         expect(response.status).to eq 302
         expect(response).to redirect_to Task.last
