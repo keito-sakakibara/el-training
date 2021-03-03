@@ -5,13 +5,10 @@ class TasksController < ApplicationController
   # @return [Array<Task>]
   # @return [Array<Status>]
   def index
-    @statuses = Status.all
     @tasks = Task.all.order(created_at: :desc)
-    @tasks = Task.search_status_id(params[:status_id]) if params[:status_id].present?
-    @tasks = Task.search_task_name(params[:name]) if params[:name].present?
-    if params[:deadline_date_sort_type].present?
-      @tasks = Task.all.order(deadline_date: params[:deadline_date_sort_type])
-    end
+    @tasks = Task.where(status_id: params[:status_id]) if params[:status_id].present?
+    @tasks = Task.where('name LIKE ?',"%#{params[:name]}%" ) if params[:name].present?
+    @tasks = Task.all.order(deadline_date: params[:deadline_date_sort_type]) if params[:deadline_date_sort_type].present?
   end
 
   # 対象タスクを取得する
