@@ -6,9 +6,18 @@ RSpec.describe TasksController, type: :request do
   describe '#index' do
     subject { get tasks_path }
 
-    let!(:task1) { create(:task, created_at: Time.current, deadline_date: Date.current + 3.days) }
-    let!(:task2) { create(:task, created_at: Time.current + 1.hour, deadline_date: Date.current + 10.days) }
-    let!(:task3) { create(:task, created_at: Time.current + 2.hours, deadline_date: Date.current + 7.days) }
+    let!(:task1) do
+      create(:task, name: 'task1', created_at: Time.current, deadline_date: Date.current + 3.days,
+                    status: create(:status, id: 1))
+    end
+    let!(:task2) do
+      create(:task, name: 'task2', created_at: Time.current + 1.hour, deadline_date: Date.current + 10.days,
+                    status: create(:status, id: 2))
+    end
+    let!(:task3) do
+      create(:task, name: 'task3', created_at: Time.current + 2.hours, deadline_date: Date.current + 7.days,
+                    status: create(:status, id: 3))
+    end
 
     it 'リクエストが成功すること' do
       subject
@@ -22,13 +31,23 @@ RSpec.describe TasksController, type: :request do
     end
 
     it '締め切り日に近い順にソートが行われていること' do
-      get tasks_path, params: {deadline_date_sort_type: "asc"}
+      get tasks_path, params: { deadline_date_sort_type: 'asc' }
       expect(controller.instance_variable_get('@tasks')).to eq([task1, task3, task2])
     end
 
     it '締め切り日に遠い順にソートが行われていること' do
-      get tasks_path, params: {deadline_date_sort_type: "desc"}
+      get tasks_path, params: { deadline_date_sort_type: 'desc' }
       expect(controller.instance_variable_get('@tasks')).to eq([task2, task3, task1])
+    end
+
+    it '名前の検索が正しく行われていること' do
+      get tasks_path, params: { name: 'task1' }
+      expect(controller.instance_variable_get('@tasks')).to eq([task1])
+    end
+
+    it 'ステータスの検索が正しく行われていること' do
+      get tasks_path, params: { status_id: 1 }
+      expect(controller.instance_variable_get('@tasks')).to eq([task1])
     end
   end
 
@@ -92,17 +111,16 @@ RSpec.describe TasksController, type: :request do
 
   describe '#create' do
     context 'パラメータが妥当な場合' do
-      subject { post tasks_path, params: { task: FactoryBot.attributes_for(:task) } }
+      let(:status) { create(:status) }
+      subject { post tasks_path, params: { task: FactoryBot.attributes_for(:task, status_id: status.id) } }
 
       it 'タスクが登録される' do
         expect do
-          FactoryBot.create(:status)
           subject
         end.to change(Task, :count).by(1)
       end
 
       it 'リダイレクトされること' do
-        FactoryBot.create(:status)
         subject
         expect(response.status).to eq 302
         expect(response).to redirect_to Task.last

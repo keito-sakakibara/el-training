@@ -3,20 +3,15 @@
 class TasksController < ApplicationController
   # 全てのタスクを取得する
   # @return [Array<Task>]
+  # @return [Array<Status>]
   def index
     @statuses = Status.all
-    tasks_name = params[:name]
-    status_id = params[:status_id]
-    if tasks_name.present? && status_id.present? 
-      @tasks = Task.search_status_id(status_id).search_task_name(tasks_name)
-    elsif status_id.present?
-      @tasks = Task.search_status_id(status_id)
-    elsif params[:deadline_date_sort_type].present?
+    @tasks = Task.all.order(created_at: :desc)
+    @tasks = Task.search_status_id(params[:status_id]) if params[:status_id].present?
+    @tasks = Task.search_task_name(params[:name]) if params[:name].present?
+    if params[:deadline_date_sort_type].present?
       @tasks = Task.all.order(deadline_date: params[:deadline_date_sort_type])
-    else
-      @tasks = Task.all.order(created_at: :desc)
     end
-    
   end
 
   # 対象タスクを取得する
@@ -28,8 +23,6 @@ class TasksController < ApplicationController
   # タスクインスタンスを作成
   def new
     @task = Task.new
-    @statuses = Status.all
-    @task.build_status
   end
 
   # タスクを作成
@@ -37,7 +30,6 @@ class TasksController < ApplicationController
   # return [nil] saveされなかった時new.html.erbにレンダリング
   def create
     @task = Task.new(task_params)
-    @task.status_id = params[:task][:status_id].to_i
     if @task.save
       flash[:succcess] = 'タスクが作成されました'
       redirect_to @task
@@ -81,6 +73,6 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:name, :detail, :deadline_date, :status_id )
+    params.require(:task).permit(:name, :detail, :deadline_date, :status_id)
   end
 end

@@ -16,7 +16,7 @@
   <%= f.label :deadline_date, '終了期限' %>
   <%= f.date_select :deadline_date %>
   <%= f.label :status_id, 'ステータス' %>
-  <%= f.collection_select(:status_id,@statuses, :id, :name )%>
+  <%= f.collection_select(:status_id,Status.all, :id, :name )%>
   <%= f.submit %>
 <% end %>
 

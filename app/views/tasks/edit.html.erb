@@ -7,9 +7,7 @@
     <%= f.text_area :detail %>
     <%= f.label :deadline_date, '終了期限' %>
     <%= f.date_select :deadline_date %>
-    <%= f.fields_for :status do |s|%>
-      <%= s.select :name, [["未着手", "未着手"], ["着手", "着手"], ["完了", "完了"]], include_blank: "選択して下さい" %>
-    <% end %>
+    <%= f.collection_select(:status_id,Status.all, :id, :name )%> 
     <%= f.submit '編集' %>
 <% end %>
 
