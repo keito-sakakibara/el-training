@@ -3,7 +3,6 @@
 class TasksController < ApplicationController
   # 全てのタスクを取得する
   # @return [Array<Task>]
-  # @return [Array<Status>]
   def index
     @tasks = Task.all.order(created_at: :desc)
     @tasks = Task.where(status_id: params[:status_id]) if params[:status_id].present?
