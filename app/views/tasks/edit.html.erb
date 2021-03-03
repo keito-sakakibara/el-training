@@ -7,6 +7,7 @@
     <%= f.text_area :detail %>
     <%= f.label :deadline_date, '終了期限' %>
     <%= f.date_select :deadline_date %>
+    <%= f.collection_select(:status_id,Status.all, :id, :name )%> 
     <%= f.submit '編集' %>
 <% end %>
 

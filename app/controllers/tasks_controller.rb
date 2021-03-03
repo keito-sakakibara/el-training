@@ -4,11 +4,10 @@ class TasksController < ApplicationController
   # 全てのタスクを取得する
   # @return [Array<Task>]
   def index
-    if params[:deadline_date_sort_type].present?
-      @tasks = Task.all.order(deadline_date: params[:deadline_date_sort_type])
-    else
-      @tasks = Task.all.order(created_at: :desc)
-    end
+    @tasks = Task.all.order(created_at: :desc)
+    @tasks = Task.where(status_id: params[:status_id]) if params[:status_id].present?
+    @tasks = Task.where('name LIKE ?',"%#{params[:name]}%" ) if params[:name].present?
+    @tasks = Task.all.order(deadline_date: params[:deadline_date_sort_type]) if params[:deadline_date_sort_type].present?
   end
 
   # 対象タスクを取得する
@@ -27,7 +26,6 @@ class TasksController < ApplicationController
   # return [nil] saveされなかった時new.html.erbにレンダリング
   def create
     @task = Task.new(task_params)
-
     if @task.save
       flash[:succcess] = 'タスクが作成されました'
       redirect_to @task
@@ -71,6 +69,6 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:name, :detail, :deadline_date)
+    params.require(:task).permit(:name, :detail, :deadline_date, :status_id)
   end
 end
