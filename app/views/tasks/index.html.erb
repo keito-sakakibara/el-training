@@ -1,5 +1,7 @@
-<%= link_to "締め切りに近い順", tasks_path(deadline_date_sort_type: "asc")%>
-<%= link_to "締め切りに遠い順", tasks_path(deadline_date_sort_type: "desc")%>
+<%= link_to "締め切りに近い順", tasks_path(for_order_column: :deadline_date, asc_or_desc: "asc") %>
+<%= link_to "締め切りに遠い順", tasks_path(for_order_column: :deadline_date, asc_or_desc: "desc") %>
+<%= link_to "優先順位が高い順", tasks_path(for_order_column: :priority_id, asc_or_desc: "asc") %>
+<%= link_to "優先順位が低い順", tasks_path(for_order_column: :priority_id, asc_or_desc: "desc") %>
 
 <%= form_with url:tasks_path, method: :get, local: true do |f| %>
   <%= f.label :name, '名前' %> 
