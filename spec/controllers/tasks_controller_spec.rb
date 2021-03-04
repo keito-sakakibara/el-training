@@ -8,15 +8,15 @@ RSpec.describe TasksController, type: :request do
 
     let!(:task1) do
       create(:task, name: 'task1', created_at: Time.current, deadline_date: Date.current + 3.days,
-                    status: create(:status, id: 1), priority: create(:priority, id:1))
+                    status: create(:status, id: 1), priority: create(:priority, id: 1))
     end
     let!(:task2) do
       create(:task, name: 'task2', created_at: Time.current + 1.hour, deadline_date: Date.current + 10.days,
-                    status: create(:status, id: 2), priority: create(:priority, id:2))
+                    status: create(:status, id: 2), priority: create(:priority, id: 2))
     end
     let!(:task3) do
       create(:task, name: 'task3', created_at: Time.current + 2.hours, deadline_date: Date.current + 7.days,
-                    status: create(:status, id: 3), priority: create(:priority, id:3))
+                    status: create(:status, id: 3), priority: create(:priority, id: 3))
     end
 
     it 'リクエストが成功すること' do
@@ -31,12 +31,12 @@ RSpec.describe TasksController, type: :request do
     end
 
     it '締め切り日に近い順にソートが行われていること' do
-      get tasks_path, params: { for_order_column: "deadline_date", asc_or_desc: "asc"  }
+      get tasks_path, params: { for_order_column: 'deadline_date', asc_or_desc: 'asc' }
       expect(controller.instance_variable_get('@tasks')).to eq([task1, task3, task2])
     end
 
     it '締め切り日に遠い順にソートが行われていること' do
-      get tasks_path, params: { for_order_column: "deadline_date", asc_or_desc: 'desc' }
+      get tasks_path, params: { for_order_column: 'deadline_date', asc_or_desc: 'desc' }
       expect(controller.instance_variable_get('@tasks')).to eq([task2, task3, task1])
     end
 
@@ -51,12 +51,12 @@ RSpec.describe TasksController, type: :request do
     end
 
     it '優先順位が高い順にソートが行われていること' do
-      get tasks_path, params: { for_order_column: "priority_id", asc_or_desc: "asc"  }
+      get tasks_path, params: { for_order_column: 'priority_id', asc_or_desc: 'asc' }
       expect(controller.instance_variable_get('@tasks')).to eq([task1, task2, task3])
     end
 
     it '優先順位が低い順にソートが行われていること' do
-      get tasks_path, params: { for_order_column: "priority_id", asc_or_desc: 'desc' }
+      get tasks_path, params: { for_order_column: 'priority_id', asc_or_desc: 'desc' }
       expect(controller.instance_variable_get('@tasks')).to eq([task3, task2, task1])
     end
   end
@@ -123,7 +123,10 @@ RSpec.describe TasksController, type: :request do
     context 'パラメータが妥当な場合' do
       let(:status) { create(:status) }
       let(:priority) { create(:priority) }
-      subject { post tasks_path, params: { task: FactoryBot.attributes_for(:task, status_id: status.id, priority_id: priority.id) } }
+      subject do
+        post tasks_path,
+             params: { task: FactoryBot.attributes_for(:task, status_id: status.id, priority_id: priority.id) }
+      end
 
       it 'タスクが登録される' do
         expect do
