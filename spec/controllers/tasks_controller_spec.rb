@@ -81,6 +81,16 @@ RSpec.describe TasksController, type: :request do
         subject
         expect(response.body).to include '2021-02-18'
       end
+
+      it 'ステータスが表示されていること' do
+        subject
+        expect(response.body).to include '着手'
+      end
+
+      it '優先順位が表示されていること' do
+        subject
+        expect(response.body).to include '高'
+      end
     end
 
     context 'タスクが存在しない時' do
@@ -116,6 +126,21 @@ RSpec.describe TasksController, type: :request do
     it '詳細が表示されていること' do
       subject
       expect(response.body).to include 'detail'
+    end
+
+    it '終了期限が表示されていること' do
+      subject
+      expect(response.body).to include '2021'
+    end
+
+    it 'ステータスが表示されていること' do
+      subject
+      expect(response.body).to include '着手'
+    end
+
+    it '優先順位が表示されていること' do
+      subject
+      expect(response.body).to include '高'
     end
   end
 
@@ -158,17 +183,45 @@ RSpec.describe TasksController, type: :request do
   end
 
   describe '#update' do
-    let!(:task) { create(:task) }
+    let!(:task) { create(:task, status: create(:status, id: 1), priority: create(:priority, id: 1)) }
 
     context 'パラメータが妥当な場合' do
+      let(:status) { create(:status, id: 2) }
+      let(:priority) { create(:priority, id: 2) }
       subject do
-        put task_path task, params: { task: FactoryBot.attributes_for(:task, name: 'sample', detail: 'sample_detail') }
+        put task_path task,
+                      params: { task: FactoryBot.attributes_for(:task, name: 'sample', detail: 'sample_detail', deadline_date: '2021-03-18',
+                                                                       status_id: status.id, priority_id: priority.id) }
       end
 
       it 'タスク名が更新されること' do
         expect do
           subject
         end.to change { Task.find(task.id).name }.from('name').to('sample')
+      end
+
+      it '詳細が更新されること' do
+        expect do
+          subject
+        end.to change { Task.find(task.id).detail }.from('detail').to('sample_detail')
+      end
+
+      it '終了期限が更新されること' do
+        expect do
+          subject
+        end.to change { Task.find(task.id).deadline_date }.from(task.deadline_date).to('Thu, 18 Mar 2021'.to_date)
+      end
+
+      it 'ステータスが更新されること' do
+        expect do
+          subject
+        end.to change { Task.find(task.id).status_id }.from(1).to(2)
+      end
+
+      it '優先順位が更新されること' do
+        expect do
+          subject
+        end.to change { Task.find(task.id).priority_id }.from(1).to(2)
       end
 
       it 'リダイレクトすること' do
@@ -179,12 +232,41 @@ RSpec.describe TasksController, type: :request do
     end
 
     context 'パラメータが不正な場合' do
-      subject { put task_path task, params: { id: task.id, task: FactoryBot.attributes_for(:task, name: nil) } }
+      subject do
+        put task_path task,
+                      params: { id: task.id,
+                                task: FactoryBot.attributes_for(:task, name: nil, detail: nil, deadline_date: nil,
+                                                                       status_id: nil, priority_id: nil) }
+      end
 
       it 'タスク名が変更されないこと' do
         expect do
           subject
         end.to_not change(Task.find(task.id), :name)
+      end
+
+      it '詳細が変更されないこと' do
+        expect do
+          subject
+        end.to_not change(Task.find(task.id), :detail)
+      end
+
+      it '締め切り日時が変更されないこと' do
+        expect do
+          subject
+        end.to_not change(Task.find(task.id), :deadline_date)
+      end
+
+      it 'ステータスが変更されないこと' do
+        expect do
+          subject
+        end.to_not change(Task.find(task.id), :status_id)
+      end
+
+      it '優先順位が変更されないこと' do
+        expect do
+          subject
+        end.to_not change(Task.find(task.id), :priority_id)
       end
 
       it 'エラーが表示されること' do
