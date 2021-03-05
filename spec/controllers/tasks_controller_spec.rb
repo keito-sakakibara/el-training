@@ -183,11 +183,11 @@ RSpec.describe TasksController, type: :request do
   end
 
   describe '#update' do
-    let!(:task) { create(:task, status: create(:status, id: 1), priority: create(:priority, id: 1)) }
+    let!(:task) { create(:task, status: create(:status, :todo), priority: create(:priority)) }
 
     context 'パラメータが妥当な場合' do
-      let(:status) { create(:status, id: 2) }
-      let(:priority) { create(:priority, id: 2) }
+      let(:status) { create(:status) }
+      let(:priority) { create(:priority, :medium) }
       subject do
         put task_path task,
                       params: { task: FactoryBot.attributes_for(:task, name: 'sample', detail: 'sample_detail', deadline_date: '2021-03-18',
