@@ -5,12 +5,10 @@ class TasksController < ApplicationController
   # @return [Array<Task>]
   def index
     @tasks = Task.all.order(created_at: :desc)
-    @tasks = Task.where(status_id: params[:status_id]) if params[:status_id].present?
-    @tasks = Task.where('name LIKE ?', "%#{params[:name]}%") if params[:name].present?
-    if params[:for_order_column].present?
-      @tasks = Task.all.order([params[:for_order_column],
-                               params[:asc_or_desc]].join(' '))
-    end
+    @tasks = Task.all.order([params[:for_order_column],
+                             params[:asc_or_desc]].join(' ')) if params[:for_order_column].present?
+    @tasks = @tasks.where(status_id: params[:status_id]) if params[:status_id].present?
+    @tasks = @tasks.where('name LIKE ?', "%#{params[:name]}%") if params[:name].present?
   end
 
   # 対象タスクを取得する
