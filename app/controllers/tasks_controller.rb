@@ -5,9 +5,10 @@ class TasksController < ApplicationController
   # @return [Array<Task>]
   def index
     @tasks = Task.all.order(created_at: :desc)
-    @tasks = Task.where(status_id: params[:status_id]) if params[:status_id].present?
-    @tasks = Task.where('name LIKE ?',"%#{params[:name]}%" ) if params[:name].present?
-    @tasks = Task.all.order(deadline_date: params[:deadline_date_sort_type]) if params[:deadline_date_sort_type].present?
+    @tasks = Task.all.order([params[:for_order_column],
+                             params[:asc_or_desc]].join(' ')) if params[:for_order_column].present?
+    @tasks = @tasks.where(status_id: params[:status_id]) if params[:status_id].present?
+    @tasks = @tasks.where('name LIKE ?', "%#{params[:name]}%") if params[:name].present?
   end
 
   # 対象タスクを取得する
@@ -69,6 +70,6 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:name, :detail, :deadline_date, :status_id)
+    params.require(:task).permit(:name, :detail, :deadline_date, :status_id, :priority_id)
   end
 end

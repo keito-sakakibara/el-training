@@ -5,7 +5,9 @@
 <% if @task.status.name.present? %>
     <p><%= @task.status.name %></p>
 <% end %>
-
+<% if @task.priority.name.present? %>
+    <p><%= @task.priority.name %></p>
+<% end %>
 
 <div class = "back">
     <%= link_to "一覧へ",tasks_path,{class:"back_button"}%>

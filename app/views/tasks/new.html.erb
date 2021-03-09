@@ -17,6 +17,8 @@
   <%= f.date_select :deadline_date %>
   <%= f.label :status_id, 'ステータス' %>
   <%= f.collection_select(:status_id,Status.all, :id, :name )%>
+  <%= f.label :priority_id, '優先順位' %>
+  <%= f.collection_select(:priority_id,Priority.all, :id, :name )%>
   <%= f.submit %>
 <% end %>
 
