@@ -9,20 +9,26 @@
   <%= f.submit '検索' %> 
 <% end %>
 
-<h1>一覧</h1>
-<hr>
-<ul>
-  <% @tasks.each do |task| %>
-    <li> 
-      <% if @tasks%>
-        <%= link_to task.name, task, {class: "task"}%>
-      <% else %>
-        <p>タスクがありません</p>
-      <%end%>
-    </li>
-  <% end %>
-</ul>
+<div class="container">
+  <h1>一覧</h1>
+  <hr>
+  <ul>
+    <% @tasks.each do |task| %>
+      <li> 
+        <% if @tasks%>
+          <%= link_to task.name, task, {class: "task"}%>
+        <% else %>
+          <p>タスクがありません</p>
+        <%end%>
+      </li>
+    <% end %>
+  </ul>
 
-<div class = "back">
-  <%= link_to "作成", new_task_path, {class: "back_button"} %>
+  <div class = "back">
+    <%= link_to "作成", new_task_path, {class: "back_button"} %>
+  </div>
+  
+  <div class = "pagenate">
+    <%= paginate @tasks %>
+  </div>
 </div>
