@@ -4,11 +4,12 @@ class TasksController < ApplicationController
   # 全てのタスクを取得する
   # @return [Array<Task>]
   def index
-    @tasks = Task.all.order(created_at: :desc).page(params[:page]).per(3)
+    @tasks = Task.all.order(created_at: :desc)
     @tasks = Task.all.order([params[:for_order_column],
-                             params[:asc_or_desc]].join(' ')).page(params[:page]).per(3) if params[:for_order_column].present?
-    @tasks = @tasks.where(status_id: params[:status_id]).page(params[:page]).per(3) if params[:status_id].present?
-    @tasks = @tasks.where('name LIKE ?', "%#{params[:name]}%").page(params[:page]).per(3) if params[:name].present?
+                             params[:asc_or_desc]].join(' ')) if params[:for_order_column].present?
+    @tasks = @tasks.where(status_id: params[:status_id]) if params[:status_id].present?
+    @tasks = @tasks.where('name LIKE ?', "%#{params[:name]}%") if params[:name].present?
+    @tasks = @tasks.page(params[:page]).per(3)
   end
 
   # 対象タスクを取得する
