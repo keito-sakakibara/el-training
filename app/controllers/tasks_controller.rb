@@ -9,6 +9,7 @@ class TasksController < ApplicationController
                              params[:asc_or_desc]].join(' ')) if params[:for_order_column].present?
     @tasks = @tasks.where(status_id: params[:status_id]) if params[:status_id].present?
     @tasks = @tasks.where('name LIKE ?', "%#{params[:name]}%") if params[:name].present?
+    @tasks = @tasks.page(params[:page]).per(3)
   end
 
   # 対象タスクを取得する
