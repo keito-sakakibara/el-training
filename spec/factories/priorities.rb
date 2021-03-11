@@ -15,5 +15,4 @@ FactoryBot.define do
     id { 3 }
     name { '低' }
   end
-
 end
