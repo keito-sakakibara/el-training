@@ -7,7 +7,9 @@ namespace :users do
     begin 
       tasks = Task.where(user_id: nil)
       user = User.find_by!(name:"テストユーザー",email:"test@test.com")
-      tasks.update!(user_id:user.id)
+      tasks.each do |task|
+        task.update!(user_id:user.id)
+      end     
     rescue => e
       Rails.logger.error(e)
     end
