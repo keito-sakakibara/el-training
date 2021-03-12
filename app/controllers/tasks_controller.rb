@@ -5,8 +5,10 @@ class TasksController < ApplicationController
   # @return [Array<Task>]
   def index
     @tasks = Task.all.order(created_at: :desc)
-    @tasks = Task.all.order([params[:for_order_column],
-                             params[:asc_or_desc]].join(' ')) if params[:for_order_column].present?
+    if params[:for_order_column].present?
+      @tasks = Task.all.order([params[:for_order_column],
+                               params[:asc_or_desc]].join(' '))
+    end
     @tasks = @tasks.where(status_id: params[:status_id]) if params[:status_id].present?
     @tasks = @tasks.where('name LIKE ?', "%#{params[:name]}%") if params[:name].present?
     @tasks = @tasks.page(params[:page]).per(5)
