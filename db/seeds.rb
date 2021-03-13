@@ -16,11 +16,11 @@ Status.create!(
     [
         {
             id: 1,
-            name: "着手"
+            name: "未着手"
         },
         {
             id: 2,
-            name: "未着手"
+            name: "着手"
         },
         {
             id: 3,
