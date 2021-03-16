@@ -1,4 +1,4 @@
-<% if logged_in? %>
+<% if current_user.present? %>
   <%= link_to "ログアウト", logout_path, method: :delete %>
   <%= form_with url:tasks_path, method: :get, local: true do |f| %>
     <%= f.label :name, '名前' %> 
@@ -41,6 +41,4 @@
   </table>
 
   <%= paginate @tasks %>
-<% else %>
-  <%= link_to "ログイン", login_path%>
 <% end %>
