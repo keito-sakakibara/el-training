@@ -32,7 +32,7 @@ class TasksController < ApplicationController
   def create
     @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
     @task = Task.new(task_params)
-    @task = Task.find_by(user_id:@current_user.id)
+    @task = Task.find_by(user_id: @current_user.id)
     if @task.save
       flash[:succcess] = 'タスクが作成されました'
       redirect_to @task
@@ -76,12 +76,10 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:name, :detail, :deadline_date, :status_id, :priority_id,:user_id)
+    params.require(:task).permit(:name, :detail, :deadline_date, :status_id, :priority_id, :user_id)
   end
 
   def logged_in_user
-    unless current_user.present?
-      redirect_to login_url
-    end
+    redirect_to login_url unless current_user.present?
   end
 end
