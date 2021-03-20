@@ -25,7 +25,7 @@ RSpec.describe 'Sessions', type: :request do
     subject { delete logout_path }
     it 'ログアウトが成功すること' do
       subject
-      expect(response).to redirect_to root_path
+      expect(response).to redirect_to login_path
     end
   end
 end
