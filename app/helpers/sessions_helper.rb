@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SessionsHelper
   # 現在ログイン中のユーザーを返す（いる場合）
   # @return [User] ログインしているユーザーとidが一致するユーザー

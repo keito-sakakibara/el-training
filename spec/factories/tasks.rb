@@ -7,5 +7,6 @@ FactoryBot.define do
     deadline_date { '2021-02-18' }
     association :status
     association :priority
+    association :user
   end
 end

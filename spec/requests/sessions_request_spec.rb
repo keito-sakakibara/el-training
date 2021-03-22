@@ -27,5 +27,10 @@ RSpec.describe 'Sessions', type: :request do
       subject
       expect(response).to redirect_to login_path
     end
+
+    it 'session[:user_id]の中身が空であること' do
+      subject
+      expect(session[:user_id]).to eq nil
+    end
   end
 end
