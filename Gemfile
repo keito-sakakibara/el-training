@@ -68,7 +68,7 @@ gem 'rails-i18n'
 
 gem 'bcrypt'
 gem 'bootstrap-sass'
+gem 'counter_culture'
 gem 'jquery-rails'
 gem 'kaminari'
 gem 'pry-byebug'
-gem 'counter_culture'

@@ -1,8 +1,12 @@
 class Admin::UsersController < ApplicationController
+  # 全てのユーザーを取得
+  # @return [Array<User>]
   def index
     @users = User.all.page(params[:page]).per(5)
   end
 
+  # 対象ユーザーを取得しそれに紐づいたタスク一覧を取得
+  # @return [Array<Task>]
   def show
     @user = User.find(params[:id])
     @tasks = Task.where(user_id: @user.id).order(created_at: :desc)
@@ -49,12 +53,13 @@ class Admin::UsersController < ApplicationController
     end
   end
 
-  # 対象ユーザーの削除
-  # @return [nil]
+  # 対象ユーザーのタスクの削除
+  # @return [nil]　タスク一覧削除
+  # @return [User]
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
-
+    @tasks = Task.where(user_id: @user.id)
+    @tasks.destroy_all
     flash[:success] = 'ユーザーが削除されました'
     redirect_to admin_users_path
   end
