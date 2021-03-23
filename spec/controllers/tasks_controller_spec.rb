@@ -68,7 +68,7 @@ RSpec.describe TasksController, type: :request do
 
   describe '#show' do
     context 'タスクが存在する時' do
-      let!(:task) { create(:task, user: create(:user, id: 1)) }
+      let!(:task) { create(:task, user: user) }
       subject { get task_path task.id }
 
       it 'リクエストが成功すること' do
@@ -115,7 +115,7 @@ RSpec.describe TasksController, type: :request do
   end
 
   describe '#edit' do
-    let!(:task) { create(:task, user: create(:user, id: 1)) }
+    let!(:task) { create(:task, user: user) }
     subject { get edit_task_path task }
 
     it 'リクエストが成功すること' do
@@ -282,7 +282,7 @@ RSpec.describe TasksController, type: :request do
   end
 
   describe '#destroy' do
-    let!(:task) { create(:task, user: create(:user, id: 1)) }
+    let!(:task) { create(:task, user: user) }
     subject { delete task_path task }
 
     it 'タスクが削除されること' do

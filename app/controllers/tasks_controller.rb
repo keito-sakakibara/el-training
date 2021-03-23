@@ -5,8 +5,7 @@ class TasksController < ApplicationController
   # 全てのタスクを取得する
   # @return [Array<Task>]
   def index
-    @tasks = Task.find_by(user_id: session[:user_id])
-    @tasks = Task.all.order(created_at: :desc)
+    @tasks = Task.where(user_id: current_user.id).order(created_at: :desc)
     if params[:for_order_column].present?
       @tasks = Task.all.order([params[:for_order_column],
                                params[:asc_or_desc]].join(' '))
