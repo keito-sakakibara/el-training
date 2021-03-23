@@ -5,6 +5,8 @@ class Admin::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @tasks = Task.where(user_id: @user.id).order(created_at: :desc)
+    @tasks = @tasks.page(params[:page]).per(5)
   end
 
   # ユーザーインスタンスを作成
@@ -40,7 +42,7 @@ class Admin::UsersController < ApplicationController
 
     if @user.update(user_params)
       flash[:succcess] = 'ユーザーが編集されました'
-      redirect_to admin_user_path(@user)
+      redirect_to admin_users_path(@user)
     else
       flash[:danger] = 'ユーザーの編集に失敗しました'
       render :edit

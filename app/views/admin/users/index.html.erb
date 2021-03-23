@@ -6,6 +6,7 @@
     <thead>
       <tr>
         <td>ユーザー</td>
+        <td>タスク数</td>
         <td>編集</td>
         <td>削除</td>
       </tr>
@@ -15,8 +16,9 @@
         <% if @users %>
           <tr>
             <td><%= link_to user.name, admin_user_path(user) %></td>
+            <td><%= user.tasks_count %></td>
             <td><%= link_to "編集", edit_admin_user_path(user),class: 'btn btn-success' %></td>
-            <td><%= link_to '削除する', admin_users_path(user), method: :delete, data:{ confirm: '本当に削除してよろしいですか？'}, class: "btn btn-danger" %></td>
+            <td><%= link_to '削除する', admin_user_path(user), method: :delete, data:{ confirm: '本当に削除してよろしいですか？'}, class: "btn btn-danger" %></td>
           </tr>
         <% else %>
           <tr>
