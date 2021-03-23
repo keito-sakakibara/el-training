@@ -5,6 +5,7 @@ class TasksController < ApplicationController
   # 全てのタスクを取得する
   # @return [Array<Task>]
   def index
+    @tasks = Task.find_by(user_id: session[:user_id])
     @tasks = Task.all.order(created_at: :desc)
     if params[:for_order_column].present?
       @tasks = Task.all.order([params[:for_order_column],
@@ -30,9 +31,8 @@ class TasksController < ApplicationController
   # return [Task] saveされた時作成されたタスクのshow.html.erbにリダイレクト
   # return [nil] saveされなかった時new.html.erbにレンダリング
   def create
-    current_user
     @task = Task.new(task_params)
-    @task.user_id = @current_user.id
+    @task.user_id = current_user.id
     if @task.save
       flash[:succcess] = 'タスクが作成されました'
       redirect_to @task
@@ -76,7 +76,7 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:name, :detail, :deadline_date, :status_id, :priority_id, :user_id)
+    params.require(:task).permit(:name, :detail, :deadline_date, :status_id, :priority_id)
   end
 
   def require_login

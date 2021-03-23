@@ -68,7 +68,6 @@ RSpec.describe TasksController, type: :request do
 
   describe '#show' do
     context 'タスクが存在する時' do
-      let(:user) { create(:user) }
       let!(:task) { create(:task, user: create(:user, id: 1)) }
       subject { get task_path task.id }
 
@@ -116,7 +115,6 @@ RSpec.describe TasksController, type: :request do
   end
 
   describe '#edit' do
-    let(:user) { create(:user) }
     let!(:task) { create(:task, user: create(:user, id: 1)) }
     subject { get edit_task_path task }
 
@@ -155,7 +153,6 @@ RSpec.describe TasksController, type: :request do
     context 'パラメータが妥当な場合' do
       let(:status) { create(:status) }
       let(:priority) { create(:priority) }
-      let(:user) { create(:user) }
       subject do
         post tasks_path,
              params: { task: FactoryBot.attributes_for(:task, status_id: status.id, priority_id: priority.id) }
@@ -196,11 +193,10 @@ RSpec.describe TasksController, type: :request do
     context 'パラメータが妥当な場合' do
       let(:status) { create(:status) }
       let(:priority) { create(:priority, :medium) }
-      let(:user) { create(:user) }
       subject do
         put task_path task,
                       params: { task: FactoryBot.attributes_for(:task, name: 'sample', detail: 'sample_detail', deadline_date: '2021-03-18',
-                                                                       status_id: status.id, priority_id: priority.id, user_id: user.id) }
+                                                                       status_id: status.id, priority_id: priority.id) }
       end
 
       it 'タスク名が更新されること' do
@@ -286,7 +282,6 @@ RSpec.describe TasksController, type: :request do
   end
 
   describe '#destroy' do
-    let(:user) { create(:user) }
     let!(:task) { create(:task, user: create(:user, id: 1)) }
     subject { delete task_path task }
 
