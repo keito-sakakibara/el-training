@@ -13,35 +13,35 @@ User.create!(
 )
 
 Status.create!(
-    [
-        {
-            id: 1,
-            name: "未着手"
-        },
-        {
-            id: 2,
-            name: "着手"
-        },
-        {
-            id: 3,
-            name: "完了"
-        }
-    ]
+  [
+    {
+      id: 1,
+      name: '未着手'
+    },
+    {
+      id: 2,
+      name: '着手'
+    },
+    {
+      id: 3,
+      name: '完了'
+    }
+  ]
 )
 
 Priority.create!(
-    [
-        {
-            id: 1,
-            name: "高"
-        },
-        {
-            id: 2,
-            name: "中"
-        },
-        {
-            id: 3,
-            name: "低"
-        }
-    ]
+  [
+    {
+      id: 1,
+      name: '高'
+    },
+    {
+      id: 2,
+      name: '中'
+    },
+    {
+      id: 3,
+      name: '低'
+    }
+  ]
 )

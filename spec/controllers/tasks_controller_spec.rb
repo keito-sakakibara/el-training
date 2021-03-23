@@ -3,20 +3,25 @@
 require 'rails_helper'
 
 RSpec.describe TasksController, type: :request do
+  let!(:user) { create(:user) }
+  before do
+    post login_path,
+         params: { session: FactoryBot.attributes_for(:user, email: user.email, password: user.password) }
+  end
   describe '#index' do
     subject { get tasks_path }
 
     let!(:task1) do
       create(:task, name: 'task1', created_at: Time.current, deadline_date: Date.current + 3.days,
-                    status: create(:status, id: 1), priority: create(:priority, id: 1))
+                    status: create(:status, id: 1), priority: create(:priority, id: 1), user_id: user.id)
     end
     let!(:task2) do
       create(:task, name: 'task2', created_at: Time.current + 1.hour, deadline_date: Date.current + 10.days,
-                    status: create(:status, id: 2), priority: create(:priority, id: 2))
+                    status: create(:status, id: 2), priority: create(:priority, id: 2), user_id: user.id)
     end
     let!(:task3) do
       create(:task, name: 'task3', created_at: Time.current + 2.hours, deadline_date: Date.current + 7.days,
-                    status: create(:status, id: 3), priority: create(:priority, id: 3))
+                    status: create(:status, id: 3), priority: create(:priority, id: 3), user_id: user.id)
     end
 
     it 'リクエストが成功すること' do
@@ -63,7 +68,7 @@ RSpec.describe TasksController, type: :request do
 
   describe '#show' do
     context 'タスクが存在する時' do
-      let!(:task) { create(:task) }
+      let!(:task) { create(:task, user: user) }
       subject { get task_path task.id }
 
       it 'リクエストが成功すること' do
@@ -110,7 +115,7 @@ RSpec.describe TasksController, type: :request do
   end
 
   describe '#edit' do
-    let!(:task) { create(:task) }
+    let!(:task) { create(:task, user: user) }
     subject { get edit_task_path task }
 
     it 'リクエストが成功すること' do
@@ -183,7 +188,7 @@ RSpec.describe TasksController, type: :request do
   end
 
   describe '#update' do
-    let!(:task) { create(:task, status: create(:status, :todo), priority: create(:priority)) }
+    let!(:task) { create(:task, status: create(:status, :todo), priority: create(:priority), user_id: user.id) }
 
     context 'パラメータが妥当な場合' do
       let(:status) { create(:status) }
@@ -277,7 +282,7 @@ RSpec.describe TasksController, type: :request do
   end
 
   describe '#destroy' do
-    let!(:task) { FactoryBot.create :task }
+    let!(:task) { create(:task, user: user) }
     subject { delete task_path task }
 
     it 'タスクが削除されること' do

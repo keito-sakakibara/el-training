@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class TasksController < ApplicationController
+  before_action :require_login
   # 全てのタスクを取得する
   # @return [Array<Task>]
   def index
-    @tasks = Task.all.order(created_at: :desc)
+    @tasks = Task.where(user_id: current_user.id).order(created_at: :desc)
     if params[:for_order_column].present?
       @tasks = Task.all.order([params[:for_order_column],
                                params[:asc_or_desc]].join(' '))
@@ -30,6 +31,7 @@ class TasksController < ApplicationController
   # return [nil] saveされなかった時new.html.erbにレンダリング
   def create
     @task = Task.new(task_params)
+    @task.user_id = current_user.id
     if @task.save
       flash[:succcess] = 'タスクが作成されました'
       redirect_to @task
@@ -74,5 +76,9 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:name, :detail, :deadline_date, :status_id, :priority_id)
+  end
+
+  def require_login
+    redirect_to login_url unless current_user.present?
   end
 end
