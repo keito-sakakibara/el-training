@@ -58,8 +58,7 @@ class Admin::UsersController < ApplicationController
   # @return [User]
   def destroy
     @user = User.find(params[:id])
-    @tasks = Task.where(user_id: @user.id)
-    @tasks.destroy_all
+    @user.destroy
     flash[:success] = 'ユーザーが削除されました'
     redirect_to admin_users_path
   end
