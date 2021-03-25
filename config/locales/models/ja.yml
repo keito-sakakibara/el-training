@@ -4,4 +4,10 @@ ja:
       task:
         name: 名前
         detail: 詳細
+        deadline_date: 終了期限
+      user:
+        name: ユーザー名
+        email: メールアドレス
+        password_digest: パスワード
+        is_admin: 管理者
         

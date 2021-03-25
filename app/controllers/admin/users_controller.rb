@@ -64,7 +64,7 @@ class Admin::UsersController < ApplicationController
       flash.now[:success] = 'ユーザーが削除されました'
       redirect_to admin_users_path
     else
-      flash[:danger] = '管理者は最低1人必要です'
+      render :show
     end
   end
 
