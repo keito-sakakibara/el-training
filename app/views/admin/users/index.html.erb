@@ -14,13 +14,6 @@
     </thead>
     <tbody>
       <% @users.each do |user| %>
-        <% if user.errors.any? %>
-            <ul>
-                <% user.errors.full_messages.each do |message| %>
-                     <li><%= message %></li>
-                <% end %>
-            </ul>
-        <% end %>
         <% if @users %>
           <tr>
             <td><%= link_to user.name, admin_user_path(user) %></td>
