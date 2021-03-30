@@ -1,13 +1,36 @@
 <h1><%= @task.name %></h1>
-<hr>
 <p><%= @task.detail %></p>
-<p><%= @task.deadline_date %></p>
-<% if @task.status.name.present? %>
-    <p><%= @task.status.name %></p>
-<% end %>
-<% if @task.priority.name.present? %>
-    <p><%= @task.priority.name %></p>
-<% end %>
+<hr>
+<table class="table">
+    <thead>
+        <tr>
+            <td>終了期限</td>
+            <td>ステータス</td>
+            <td>優先順位</td>
+            <td>ラベル</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><p><%= @task.deadline_date %></p></td>
+            <td>
+                <% if @task.status.name.present? %>
+                    <p><%= @task.status.name %></p>
+                <% end %>
+            </td>
+            <td>
+                <% if @task.priority.name.present? %>
+                        <p><%= @task.priority.name %></p>
+                <% end %>
+            </td>
+            <td>
+                <% @task.labels.each do |label| %>
+                    <%= label.name %>
+                <% end %>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 <%= link_to "一覧へ",tasks_path,class: 'btn btn-primary'%>
 
