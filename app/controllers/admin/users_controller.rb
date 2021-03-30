@@ -1,4 +1,6 @@
 class Admin::UsersController < ApplicationController
+  before_action :admin_user
+
   # 全てのユーザーを取得
   # @return [Array<User>]
   def index
@@ -58,14 +60,21 @@ class Admin::UsersController < ApplicationController
   # @return [User]
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
-    flash[:success] = 'ユーザーが削除されました'
-    redirect_to admin_users_path
+    if @user.destroy
+      flash.now[:success] = 'ユーザーが削除されました'
+      redirect_to admin_users_path
+    else
+      render :show
+    end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :is_admin)
+  end
+
+  def admin_user
+    redirect_to(root_path) unless current_user.is_admin?
   end
 end
