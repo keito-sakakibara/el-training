@@ -149,7 +149,7 @@ RSpec.describe 'Admin::Users', type: :request do
         end.to change { User.find(admin.id).email }.from('admin@admin.com').to('admin2@admin.com')
       end
 
-      it 'メールアドレスが更新されること' do
+      it '管理者権限が更新されること' do
         expect do
           subject
         end.to change { User.find(admin.id).is_admin }.from(true).to(false)

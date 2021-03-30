@@ -24,11 +24,12 @@
                 <td><%= link_to "編集", edit_task_path(task),class: 'btn btn-success' %></td>
                 <td><%= link_to '削除する', task, method: :delete, data:{ confirm: '本当に削除してよろしいですか？'}, class: "btn btn-danger" %></td>
             </tr>
-            <tr>
-                <td>タスクがありません</td>
-            </tr>
         <% end %>
         <%= paginate @tasks %>
+      <% else %>
+        <tr>
+          <td>タスクがありません</td>
+        </tr>
       <% end %>
     </tbody>
 </table>
