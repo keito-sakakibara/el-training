@@ -5,6 +5,8 @@
     <%= f.text_field :name %>
     <%= f.label :status_id, 'ステータス' %> 
     <%= f.collection_select(:status_id,Status.all, :id, :name )%>
+    <%= f.label :label_ids, 'ラベル' %> 
+    <%= f.collection_check_boxes(:label_ids,Label.all, :id, :name )%>
     <%= f.label :for_order_column, 'ソート' %> 
     <%= f.select :for_order_column, [["締め切り","deadline_date"], ["優先順位", "priority_id"]],{ include_blank: '選択してください'}%>
     <%= f.select :asc_or_desc, [["近い、高い順","asc"], ["遠い、低い順", "desc"]],{ include_blank: '選択してください'}%>

@@ -12,6 +12,7 @@ class TasksController < ApplicationController
     end
     @tasks = @tasks.where(status_id: params[:status_id]) if params[:status_id].present?
     @tasks = @tasks.where('name LIKE ?', "%#{params[:name]}%") if params[:name].present?
+    @tasks = @tasks.joins(:labels).where(labels: { id: params[:label_ids] }) if params[:label_ids].present?
     @tasks = @tasks.page(params[:page]).per(5)
   end
 
@@ -75,7 +76,7 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:name, :detail, :deadline_date, :status_id, :priority_id)
+    params.require(:task).permit(:name, :detail, :deadline_date, :status_id, :priority_id, { label_ids: [] })
   end
 
   def require_login
