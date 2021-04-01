@@ -29,9 +29,9 @@ RSpec.describe 'Admin::Users', type: :request do
       end
       subject { get admin_users_path }
 
-      it 'ルートパスにリダイレクトされること' do
+      it 'エラー文が表示されること' do
         subject
-        expect(response).to redirect_to(root_path)
+        expect(response.body).to include '管理者権限がないためアクセスできません'
       end
     end
   end
@@ -58,9 +58,12 @@ RSpec.describe 'Admin::Users', type: :request do
     end
 
     context 'ユーザーが存在しない場合' do
-      subject { -> { get admin_user_path 5 } }
+      subject { get admin_user_path 5 }
 
-      it { is_expected.to raise_error ActiveRecord::RecordNotFound }
+      it '404エラーが発生すること' do
+        subject
+        expect(response.status).to eq 404
+      end
     end
   end
 
