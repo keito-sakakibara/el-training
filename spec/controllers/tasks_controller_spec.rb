@@ -12,7 +12,7 @@ RSpec.describe TasksController, type: :request do
     subject { get tasks_path }
 
     let!(:task1) do
-      create(:task, name: 'task1', created_at: Time.current, deadline_date: Date.current + 3.days,
+      create(:task, id: 1, name: 'task1', created_at: Time.current, deadline_date: Date.current + 3.days,
                     status: create(:status, id: 1), priority: create(:priority, id: 1), user_id: user.id)
     end
     let!(:task2) do
@@ -23,6 +23,9 @@ RSpec.describe TasksController, type: :request do
       create(:task, name: 'task3', created_at: Time.current + 2.hours, deadline_date: Date.current + 7.days,
                     status: create(:status, id: 3), priority: create(:priority, id: 3), user_id: user.id)
     end
+
+    let!(:label) { create(:label)}
+    let!(:task_label_relationship) { create(:task_label_relationship, task: task1, label:label)}
 
     it 'リクエストが成功すること' do
       subject
@@ -52,6 +55,11 @@ RSpec.describe TasksController, type: :request do
 
     it 'ステータスの検索が正しく行われていること' do
       get tasks_path, params: { status_id: 1 }
+      expect(controller.instance_variable_get('@tasks')).to eq([task1])
+    end
+
+    it 'ラベルの検索が正しく行われていること' do
+      get tasks_path, params: { label_ids: 1 }
       expect(controller.instance_variable_get('@tasks')).to eq([task1])
     end
 
