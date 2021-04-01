@@ -80,6 +80,6 @@ class TasksController < ApplicationController
   end
 
   def require_login
-    raise ActiveRecord::RecordNotFound unless current_user.present?
+    redirect_to login_url unless current_user.present?
   end
 end
