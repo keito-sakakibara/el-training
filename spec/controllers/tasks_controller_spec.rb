@@ -59,7 +59,7 @@ RSpec.describe TasksController, type: :request do
     end
 
     it 'ラベルの検索が正しく行われていること' do
-      get tasks_path, params: { label_ids: 1 }
+      get tasks_path, params: { label_ids: [1] }
       expect(controller.instance_variable_get('@tasks')).to eq([task1])
     end
 
