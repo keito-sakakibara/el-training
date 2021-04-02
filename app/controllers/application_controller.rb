@@ -13,16 +13,16 @@ class ApplicationController < ActionController::Base
 
   def render_403(e)
     @exception = e
-    render template: 'errors/error_403', status: 403
+    render template: 'errors/error_403', status: :forbidden
   end
 
   def render_404(e)
     @exception = e
-    render template: 'errors/error_404', status: 404
+    render template: 'errors/error_404', status: :not_found
   end
 
   def render_500(e)
     @exception = e
-    render template: 'errors/error_500', status: 500
+    render template: 'errors/error_500', status: :internal_server_error
   end
 end

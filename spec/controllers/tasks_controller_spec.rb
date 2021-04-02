@@ -109,6 +109,11 @@ RSpec.describe TasksController, type: :request do
     context 'タスクが存在しない時' do
       subject { get task_path 5 }
 
+      it 'エラー文が表示されること' do
+        subject
+        expect(response.body).to include 'ルートが見つかりません、urlが正しいかご確認ください'
+      end
+
       it '404エラーが発生すること' do
         subject
         expect(response.status).to eq 404

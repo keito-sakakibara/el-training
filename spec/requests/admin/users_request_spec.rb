@@ -29,6 +29,11 @@ RSpec.describe 'Admin::Users', type: :request do
       end
       subject { get admin_users_path }
 
+      it '403エラーが発生すること' do
+        subject
+        expect(response.status).to eq 403
+      end
+
       it 'エラー文が表示されること' do
         subject
         expect(response.body).to include '管理者権限がないためアクセスできません'
@@ -63,6 +68,11 @@ RSpec.describe 'Admin::Users', type: :request do
       it '404エラーが発生すること' do
         subject
         expect(response.status).to eq 404
+      end
+
+      it 'エラー文が表示されること' do
+        subject
+        expect(response.body).to include 'ルートが見つかりません、urlが正しいかご確認ください'
       end
     end
   end
