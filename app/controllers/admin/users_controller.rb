@@ -75,6 +75,6 @@ class Admin::UsersController < ApplicationController
   end
 
   def admin_user
-    redirect_to(root_path) unless current_user.is_admin?
+    raise Forbidden unless current_user.is_admin?
   end
 end

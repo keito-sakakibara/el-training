@@ -24,8 +24,8 @@ RSpec.describe TasksController, type: :request do
                     status: create(:status, id: 3), priority: create(:priority, id: 3), user_id: user.id)
     end
 
-    let!(:label) { create(:label)}
-    let!(:task_label_relationship) { create(:task_label_relationship, task: task1, label:label)}
+    let!(:label) { create(:label) }
+    let!(:task_label_relationship) { create(:task_label_relationship, task: task1, label: label) }
 
     it 'リクエストが成功すること' do
       subject
@@ -107,9 +107,17 @@ RSpec.describe TasksController, type: :request do
     end
 
     context 'タスクが存在しない時' do
-      subject { -> { get task_path 5 } }
+      subject { get task_path 5 }
 
-      it { is_expected.to raise_error ActiveRecord::RecordNotFound }
+      it 'エラー文が表示されること' do
+        subject
+        expect(response.body).to include 'ルートが見つかりません、urlが正しいかご確認ください'
+      end
+
+      it '404エラーが発生すること' do
+        subject
+        expect(response.status).to eq 404
+      end
     end
   end
 
